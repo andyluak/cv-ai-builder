@@ -26,8 +26,8 @@ function Sidebar({}: Props) {
   }
 
   return (
-    <ScrollArea className="max-h-dvh col-span-4">
-      <aside className="min-h-dvh bg-slate-900 text-slate-100 p-8">
+    <ScrollArea className="h-full max-h-dvh col-span-4 !fixed bottom-0 w-[600px]">
+      <aside className="min-h-dvh  bg-slate-900 text-slate-100 p-8">
         <form className="space-y-6">
           <p className="text-slate-200 text-2xl">Basic Info</p>
           <div className="space-y-2">
@@ -53,6 +53,17 @@ function Sidebar({}: Props) {
             />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="roleApplying">Role Applying For</Label>
+            <Input
+              type="text"
+              name="roleApplying"
+              id="roleApplying"
+              value={cv.roleApplying}
+              placeholder="Role Applying For"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
             <Textarea
               name="description"
@@ -61,35 +72,32 @@ function Sidebar({}: Props) {
               onChange={handleInputChange}
             />
           </div>
-          <div className="flex flex-row gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="age">Age</Label>
-              <Input
-                className="max-w-[70px]"
-                max={999}
-                min={0}
-                type="number"
-                name="age"
-                value={cv.age}
-                placeholder="Age"
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2 flex-grow">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                type="email"
-                name="email"
-                value={cv.email}
-                placeholder="Email"
-                onChange={handleInputChange}
-              />
-            </div>
+
+          <div className="space-y-2 flex-grow">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              type="email"
+              name="email"
+              value={cv.email}
+              placeholder="Email"
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="space-y-2 flex-grow">
+            <Label htmlFor="phone">Phone</Label>
+            <Input
+              type="phone"
+              name="phone"
+              value={cv.phone}
+              placeholder="Phone"
+              onChange={handleInputChange}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="address">Adress</Label>
             <Textarea
               name="address"
+              id="address"
               value={cv.address}
               placeholder="Adress"
               onChange={handleInputChange}
@@ -104,16 +112,16 @@ function Sidebar({}: Props) {
             <MultiAddInput cvObjectKey="skills" singular="skill" />
           </div>
           <div className="space-y-6">
-            <p className="text-slate-200 text-2xl">Languages</p>
-            <MultiAddInput cvObjectKey="languages" singular="language" />
-          </div>
-          <div className="space-y-6">
             <p className="text-slate-200 text-2xl">Experiences</p>
             <MultiAddInput cvObjectKey="experiences" singular="experience" />
           </div>
           <div className="space-y-6">
             <p className="text-slate-200 text-2xl">Educations</p>
             <MultiAddInput cvObjectKey="educations" singular="education" />
+          </div>
+          <div className="space-y-6">
+            <p className="text-slate-200 text-2xl">Languages</p>
+            <MultiAddInput cvObjectKey="languages" singular="language" />
           </div>
         </form>
       </aside>

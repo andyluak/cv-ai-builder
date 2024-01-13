@@ -4,6 +4,7 @@ import { create } from "zustand"
 export type TCv = {
   firstName: string
   lastName: string
+  roleApplying: string
   description: string
   age: number
   email: string
@@ -58,6 +59,7 @@ const useCVStore = create<
 >((set) => ({
   firstName: "",
   lastName: "",
+  roleApplying: "",
   description: "",
   age: 0,
   email: "",
@@ -73,6 +75,8 @@ const useCVStore = create<
     set({
       firstName: "",
       lastName: "",
+      roleApplying: "",
+      description: "",
       age: 0,
       email: "",
       phone: "",
