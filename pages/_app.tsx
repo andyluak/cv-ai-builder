@@ -5,6 +5,7 @@ import Layout from "@/components/layout"
 import "@/styles/globals.css"
 
 import { Inter as FontSans, Playfair_Display } from "next/font/google"
+import Head from "next/head"
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -19,6 +20,9 @@ export const fontSerif = Playfair_Display({
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
+      <Head>
+        <title>CV</title>
+      </Head>
       <style jsx global>{`
         :root {
           --font-sans: ${fontSans.style.fontFamily};

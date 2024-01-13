@@ -26,7 +26,10 @@ function Sidebar({}: Props) {
   }
 
   return (
-    <ScrollArea className="h-full max-h-dvh col-span-4 !fixed bottom-0 w-[600px]">
+    <ScrollArea
+      className="h-full max-h-dvh col-span-4 !fixed bottom-0 w-[600px]"
+      id="sidebar"
+    >
       <aside className="min-h-dvh  bg-slate-900 text-slate-100 p-8">
         <form className="space-y-6">
           <p className="text-slate-200 text-2xl">Basic Info</p>
