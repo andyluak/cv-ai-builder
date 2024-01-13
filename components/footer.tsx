@@ -7,7 +7,7 @@ type Props = {
 }
 
 function Footer({ className }: Props) {
-  return <div className={cn(className)}>Footer</div>
+  return <div className={cn(className)}></div>
 }
 
 export default Footer

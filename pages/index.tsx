@@ -1,3 +1,3 @@
 export default function Home() {
-  return <section>Start Building</section>;
+  return <section className="col-span-8"></section>
 }

@@ -7,7 +7,7 @@ type Props = {
 }
 
 function Navbar({ className }: Props) {
-  return <header className={cn(className)}>Navbar</header>
+  return <header className={cn(className)}></header>
 }
 
 export default Navbar
