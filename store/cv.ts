@@ -13,6 +13,7 @@ export type TCv = {
   links: {
     id: string
     name: string
+    url: string
   }[]
   skills: {
     id: string
@@ -35,7 +36,7 @@ export type TCv = {
   languages: {
     id: string
     name: string
-    level: string
+    level: "beginner" | "intermediate" | "advanced" | "proficient"
   }[]
 }
 

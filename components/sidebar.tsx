@@ -1,7 +1,11 @@
-import React from "react"
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useEffect } from "react"
 import useCVStore, { TCv } from "@/store/cv"
 
+import useStreamResponse from "@/hooks/useStreamResponse"
+
 import MultiAddInput from "./multi-add-input"
+import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Label } from "./ui/label"
 import { ScrollArea } from "./ui/scroll-area"
@@ -24,6 +28,17 @@ function Sidebar({}: Props) {
     }
     setCV(newCV)
   }
+
+  const { startStream, responses } = useStreamResponse()
+
+  useEffect(() => {
+    if (responses !== "") {
+      setCV({
+        ...cv,
+        description: responses,
+      })
+    }
+  }, [responses, setCV])
 
   return (
     <ScrollArea
@@ -74,6 +89,13 @@ function Sidebar({}: Props) {
               placeholder="Description"
               onChange={handleInputChange}
             />
+            <Button
+              type="button"
+              className="mt-4"
+              onClick={() => startStream({ cv, type: "summary" })}
+            >
+              Generate Summary
+            </Button>
           </div>
 
           <div className="space-y-2 flex-grow">

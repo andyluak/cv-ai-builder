@@ -1,13 +1,24 @@
 import React, { useEffect, useMemo, useRef } from "react"
 import useCVStore, { CvObjectKey } from "@/store/cv"
+import { SelectTrigger } from "@radix-ui/react-select"
 import { AnimatePresence, motion } from "framer-motion"
 import { Trash2 } from "lucide-react"
 import { DateRange } from "react-day-picker"
 import { v4 as uuidv4 } from "uuid"
 
+import useStreamResponse from "@/hooks/useStreamResponse"
+
 import { DatePickerWithRange } from "./date-range-picker"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectValue,
+} from "./ui/select"
 import { Textarea } from "./ui/textarea"
 
 type TMultiAddInput = {
@@ -19,6 +30,7 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
   const cv = useCVStore((state) => state)
   const setCV = useCVStore((state) => state.setCV)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const { startStream, responses } = useStreamResponse()
 
   function shouldAllowAdd() {
     if (cv[cvObjectKey].length === 0) return true
@@ -75,8 +87,7 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
 
   const FieldInputs = useMemo(() => {
     switch (cvObjectKey) {
-      case "skills":
-      case "links": {
+      case "skills": {
         return cv[cvObjectKey].map((obj) => (
           <motion.div
             className="flex"
@@ -107,17 +118,59 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
           </motion.div>
         ))
       }
+      case "links": {
+        {
+          return cv[cvObjectKey].map((obj) => (
+            <motion.div
+              className="flex"
+              key={obj.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <Input
+                className="pr-10 w-[20ch]"
+                type="text"
+                name={"name"}
+                value={obj.name}
+                placeholder={"Link"}
+                onChange={(e) =>
+                  updateItem(obj.id, e.target.value, e.target.name)
+                }
+              />
+              <Input
+                className="pr-10"
+                type="text"
+                name={"url"}
+                value={obj.url}
+                placeholder={"URL"}
+                onChange={(e) =>
+                  updateItem(obj.id, e.target.value, e.target.name)
+                }
+              />
+              <Button
+                className="-ml-14"
+                variant="destructive"
+                type="button"
+                onClick={() => deleteItem(obj.id)}
+              >
+                <Trash2 />
+              </Button>
+            </motion.div>
+          ))
+        }
+      }
       case "languages": {
         return cv[cvObjectKey].map((obj) => (
           <motion.div
-            className="flex"
+            className="flex gap-2"
             key={obj.id}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
             <Input
-              className="pr-10 flex-grow"
+              className="w-[15ch]"
               type="text"
               name={"name"}
               id={singular + obj.id}
@@ -127,19 +180,30 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
                 updateItem(obj.id, e.target.value, e.target.name)
               }
             />
-            <Input
-              className="pr-10 max-w-32"
-              type="number"
+            <Select
               name={"level"}
-              id={"level" + obj.id}
               value={obj.level}
-              placeholder={"Level"}
-              onChange={(e) =>
-                updateItem(obj.id, e.target.value, e.target.name)
-              }
-            />
+              onValueChange={(e) => updateItem(obj.id, e, "level")}
+            >
+              <SelectTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="flex-grow text-slate-900 text-sm"
+                >
+                  <SelectValue placeholder="Proficiency" />
+                </Button>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Proficiency</SelectLabel>
+                  <SelectItem value="beginner"> Beginner</SelectItem>
+                  <SelectItem value="intermediate"> Intermediate</SelectItem>
+                  <SelectItem value="advanced"> Advanced</SelectItem>
+                  <SelectItem value="proficient"> Proficient</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <Button
-              className="-ml-14"
               variant="destructive"
               type="button"
               onClick={() => deleteItem(obj.id)}
@@ -287,13 +351,14 @@ function createNewItem(cvObjectKey: CvObjectKey) {
       return {
         id: uuidv4(),
         name: "",
+        url: "",
       }
     }
     case "languages": {
       return {
         id: uuidv4(),
         name: "",
-        level: "",
+        level: "beginner",
       }
     }
 

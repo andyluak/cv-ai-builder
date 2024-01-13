@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import useCVStore from "@/store/cv"
 import { format } from "date-fns"
 
@@ -20,9 +21,13 @@ function CvTemplate({}: Props) {
           <li>{cv.phone || "Phone"}</li>
           <li>{cv.email || "Email"}</li>
         </ul>
-        <ul className="gap-8 flex items-center list-disc justify-center">
+        <ul className="gap-8 flex items-center justify-center">
           {cv.links.map((l) => (
-            <li key={l.id}>{l.name}</li>
+            <li key={l.id} className="text-blue-500">
+              <Link target="_blank" href={l.url}>
+                {l.name}
+              </Link>
+            </li>
           ))}
         </ul>
       </div>
@@ -130,7 +135,6 @@ function CvTemplate({}: Props) {
                 <div className="education space-y-2" key={edu.id}>
                   <div className="flex justify-between text-slate-600">
                     <p className="text-xl">{edu.school || "Your School"}</p>
-                    <p>Location</p>
                   </div>
                   <div className="flex justify-between text-slate-600">
                     <p>{edu.degree}</p>
@@ -152,7 +156,6 @@ function CvTemplate({}: Props) {
             <div className="education space-y-2">
               <div className="flex justify-between text-slate-600">
                 <p className="text-xl">School</p>
-                <p>Location</p>
               </div>
               <div className="flex justify-between text-slate-600">
                 <p>Degree</p>
@@ -178,7 +181,10 @@ function CvTemplate({}: Props) {
         <ul className="pt-8 text-slate-500 text-base/7 text-pretty gap-20">
           {cv.languages.length > 0 ? (
             cv.languages.map((lang) => (
-              <li className="flex flex-row justify-between" key={lang.id}>
+              <li
+                className="flex flex-row justify-between capitalize"
+                key={lang.id}
+              >
                 <p>{lang.name}</p>
                 <p>{lang.level}</p>
               </li>

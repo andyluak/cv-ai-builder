@@ -6,6 +6,7 @@ import "@/styles/globals.css"
 
 import { Inter as FontSans, Playfair_Display } from "next/font/google"
 import Head from "next/head"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -16,6 +17,8 @@ export const fontSerif = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-serif",
 })
+
+const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -29,9 +32,11 @@ export default function App({ Component, pageProps }: AppProps) {
           --font-serif: ${fontSerif.style.fontFamily};
         }
       `}</style>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <QueryClientProvider client={queryClient}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </QueryClientProvider>
     </>
   )
 }
