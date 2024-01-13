@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react"
 import useCVStore, { CvObjectKey } from "@/store/cv"
+import { AnimatePresence, motion } from "framer-motion"
 import { Trash2 } from "lucide-react"
 import { DateRange } from "react-day-picker"
 import { v4 as uuidv4 } from "uuid"
@@ -77,7 +78,13 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
       case "skills":
       case "links": {
         return cv[cvObjectKey].map((obj) => (
-          <div className="flex" key={obj.id}>
+          <motion.div
+            className="flex"
+            key={obj.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <Input
               className="pr-10"
               type="text"
@@ -92,16 +99,23 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
             <Button
               className="-ml-14"
               variant="destructive"
+              type="button"
               onClick={() => deleteItem(obj.id)}
             >
               <Trash2 />
             </Button>
-          </div>
+          </motion.div>
         ))
       }
       case "languages": {
         return cv[cvObjectKey].map((obj) => (
-          <div className="flex" key={obj.id}>
+          <motion.div
+            className="flex"
+            key={obj.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <Input
               className="pr-10 flex-grow"
               type="text"
@@ -127,16 +141,23 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
             <Button
               className="-ml-14"
               variant="destructive"
+              type="button"
               onClick={() => deleteItem(obj.id)}
             >
               <Trash2 />
             </Button>
-          </div>
+          </motion.div>
         ))
       }
       case "experiences": {
         return cv[cvObjectKey].map((obj) => (
-          <div className="flex flex-wrap gap-2" key={obj.id}>
+          <motion.div
+            className="flex flex-wrap gap-2"
+            key={obj.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <Input
               className="pr-10 w-full"
               type="text"
@@ -176,16 +197,23 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
             <Button
               className="-ml-16"
               variant="destructive"
+              type="button"
               onClick={() => deleteItem(obj.id)}
             >
               <Trash2 />
             </Button>
-          </div>
+          </motion.div>
         ))
       }
       case "educations": {
         return cv[cvObjectKey].map((obj) => (
-          <div className="flex flex-wrap gap-2" key={obj.id}>
+          <motion.div
+            className="flex flex-wrap gap-2"
+            key={obj.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
             <Input
               className="pr-10 w-full"
               type="text"
@@ -225,11 +253,12 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
             <Button
               className="-ml-16"
               variant="destructive"
+              type="button"
               onClick={() => deleteItem(obj.id)}
             >
               <Trash2 />
             </Button>
-          </div>
+          </motion.div>
         ))
       }
     }
@@ -238,7 +267,7 @@ function MultiAddInput({ cvObjectKey, singular }: TMultiAddInput) {
 
   return (
     <div ref={wrapperRef} className="space-y-4">
-      {FieldInputs}
+      <AnimatePresence>{FieldInputs}</AnimatePresence>
       <Button
         className="text-slate-900"
         variant={"outline"}
